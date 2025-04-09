@@ -2,7 +2,10 @@ package main
 
 import (
 	"fmt"
+	"log"
 
+	"github.com/KhFirdavs/server-monitoring-go/internal/api"
+	"github.com/KhFirdavs/server-monitoring-go/internal/handler"
 	"github.com/KhFirdavs/server-monitoring-go/internal/metrics"
 )
 
@@ -53,4 +56,11 @@ func main() {
 	NetSentKb := NetSent / 1024
 	NetRecvKb := NetRecv / 1024
 	fmt.Println("Net Sent:", NetSentKb, "Kb", "Received:", NetRecvKb, "Kb")*/
+
+	router := handler.NewRouter()
+
+	srv := &api.Server{}
+	if err := srv.ServerRun(router, "8080"); err != nil {
+		log.Fatalf("Failed to run server: %s", err.Error())
+	}
 }
