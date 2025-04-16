@@ -1,8 +1,11 @@
 package metrics
 
 import (
+	"log"
 	"time"
 
+	"github.com/KhFirdavs/server-monitoring-go/internal/database"
+	"github.com/KhFirdavs/server-monitoring-go/internal/models"
 	"github.com/shirou/gopsutil/v3/cpu"
 	"github.com/shirou/gopsutil/v3/disk"
 	"github.com/shirou/gopsutil/v3/mem"
@@ -74,4 +77,35 @@ func CollectMetrics() (MetricsData, error) {
 		NetSent:   netSent / 1024,
 		NetRecv:   netRecv / 1024,
 	}, nil
+}
+
+func StartCollector() {
+	db := database.NewConnectPostgres()
+
+	go func() {
+		for {
+			time.Sleep(1 * time.Second)
+
+			data, err := CollectMetrics()
+			if err != nil {
+				log.Println("Ошибка при сборе метрик:", err)
+				continue
+			}
+
+			err = database.SaveMetricsToDB(db, &models.Metrics{
+				CPUUsage:  data.CPUUsage,
+				RAMUsed:   data.RAMUsed,
+				RAMTotal:  data.RAMTotal,
+				DiskUsed:  data.DiskUsed,
+				DiskTotal: data.DiskTotal,
+				NetSent:   data.NetSent,
+				NetRecv:   data.NetRecv,
+			})
+			if err != nil {
+				log.Println("Ошибка при сохранении метрик в базу:", err)
+			} else {
+				log.Println("Метрики успешно сохранены в базу")
+			}
+		}
+	}()
 }

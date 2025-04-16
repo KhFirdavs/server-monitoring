@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 
 	"github.com/KhFirdavs/server-monitoring-go/internal/api"
@@ -12,7 +11,10 @@ import (
 )
 
 func main() {
-	Collect, err := metrics.CollectMetrics()
+	metrics.StartCollector()
+	log.Println("Сбор метрик запущен...")
+
+	/*Collect, err := metrics.CollectMetrics()
 	if err != nil {
 		fmt.Println("Error:", err)
 		return
