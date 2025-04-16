@@ -5,8 +5,10 @@ import (
 	"log"
 
 	"github.com/KhFirdavs/server-monitoring-go/internal/api"
+	"github.com/KhFirdavs/server-monitoring-go/internal/database"
 	"github.com/KhFirdavs/server-monitoring-go/internal/handler"
 	"github.com/KhFirdavs/server-monitoring-go/internal/metrics"
+	"github.com/KhFirdavs/server-monitoring-go/internal/models"
 )
 
 func main() {
@@ -62,5 +64,10 @@ func main() {
 	srv := &api.Server{}
 	if err := srv.ServerRun(router, "8080"); err != nil {
 		log.Fatalf("Failed to run server: %s", err.Error())
+	}
+
+	db := database.NewConnectPostgres()
+	if err := db.AutoMigrate(&models.Metrics{}); err != nil {
+		log.Fatalf("Failed to migrate database: %s", err.Error())
 	}
 }
