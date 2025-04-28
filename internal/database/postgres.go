@@ -31,7 +31,7 @@ func Migrate(db *gorm.DB) {
 
 func SaveMetricsToDB(db *gorm.DB, metrics *models.Metrics) error {
 	if err := db.Create(metrics).Error; err != nil {
-		return fmt.Errorf("failed to save metrics to db: %w", err)
+		return fmt.Errorf("ошибка сохранения данных в db: %w", err)
 	}
 	return nil
 }

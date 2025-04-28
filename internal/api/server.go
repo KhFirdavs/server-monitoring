@@ -17,6 +17,6 @@ func (s *Server) ServerRun(handlers http.Handler, port string) error {
 		ReadTimeout:  10 * time.Second,
 		WriteTimeout: 10 * time.Second,
 	}
-	log.Println("server run success from port:", port)
+	log.Println("сервер запущен с портом:", port)
 	return s.server.ListenAndServe()
 }

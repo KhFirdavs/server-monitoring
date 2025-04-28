@@ -18,11 +18,11 @@ func main() {
 
 	srv := &api.Server{}
 	if err := srv.ServerRun(router, "8080"); err != nil {
-		log.Fatalf("Failed to run server: %s", err.Error())
+		log.Fatalf("Ошибка запуска сервера: %s", err.Error())
 	}
 
 	db := database.NewConnectPostgres()
 	if err := db.AutoMigrate(&models.Metrics{}); err != nil {
-		log.Fatalf("Failed to migrate database: %s", err.Error())
+		log.Fatalf("Ошибка переноса базы данных: %s", err.Error())
 	}
 }

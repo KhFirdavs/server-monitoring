@@ -18,7 +18,7 @@ func NewRouter() *mux.Router {
 func getMetrics(w http.ResponseWriter, r *http.Request) {
 	metricsData, err := metrics.CollectMetrics()
 	if err != nil {
-		http.Error(w, "Error message", 500)
+		http.Error(w, "Ошибка", 500)
 		return
 
 	}
@@ -34,11 +34,10 @@ func getMetrics(w http.ResponseWriter, r *http.Request) {
 		NetRecv:   metricsData.NetRecv,
 	}
 
-	// Сохраняем данные в базу данных
 	db := database.NewConnectPostgres()
 	err = database.SaveMetricsToDB(db, &metricsModel)
 	if err != nil {
-		http.Error(w, "Error saving metrics to the database", http.StatusInternalServerError)
+		http.Error(w, "Не удалось сохранить данные в базу данных", http.StatusInternalServerError)
 		return
 	}
 }
