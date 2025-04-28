@@ -17,7 +17,7 @@ func NewConnectPostgres() *gorm.DB {
 	dbParams := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable", Host, Port, User, Password, dbName)
 	db, err := gorm.Open(postgres.Open(dbParams))
 	if err != nil {
-		panic("failed to connect database")
+		panic("Ошибка подключения к базе данных")
 	}
 	return db
 }
@@ -25,13 +25,13 @@ func NewConnectPostgres() *gorm.DB {
 func Migrate(db *gorm.DB) {
 	err := db.AutoMigrate(&models.Metrics{})
 	if err != nil {
-		panic("failed to migrate database")
+		panic("Ошибка автосохранения")
 	}
 }
 
 func SaveMetricsToDB(db *gorm.DB, metrics *models.Metrics) error {
 	if err := db.Create(metrics).Error; err != nil {
-		return fmt.Errorf("failed to save metrics to database: %w", err)
+		return fmt.Errorf("failed to save metrics to db: %w", err)
 	}
 	return nil
 }

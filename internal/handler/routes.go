@@ -34,7 +34,7 @@ func getMetrics(w http.ResponseWriter, r *http.Request) {
 		NetRecv:   metricsData.NetRecv,
 	}
 
-	// Сохраняем метрики в базу данных
+	// Сохраняем данные в базу данных
 	db := database.NewConnectPostgres()
 	err = database.SaveMetricsToDB(db, &metricsModel)
 	if err != nil {

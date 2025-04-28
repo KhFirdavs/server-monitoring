@@ -88,7 +88,7 @@ func StartCollector() {
 
 			data, err := CollectMetrics()
 			if err != nil {
-				log.Println("Ошибка при сборе метрик:", err)
+				log.Println("Ошибка при сборе данных:", err)
 				continue
 			}
 
@@ -102,9 +102,9 @@ func StartCollector() {
 				NetRecv:   data.NetRecv,
 			})
 			if err != nil {
-				log.Println("Ошибка при сохранении метрик в базу:", err)
+				log.Println("Ошибка при сохранении данных в базу:", err)
 			} else {
-				log.Println("Метрики успешно сохранены в базу")
+				log.Println("Данные успешно сохранены в базу")
 			}
 		}
 	}()
